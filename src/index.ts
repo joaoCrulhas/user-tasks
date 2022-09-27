@@ -1,4 +1,4 @@
-import { ApolloServer, gql } from "apollo-server";
+import { ApolloServer } from "apollo-server";
 import { ApolloServerPluginLandingPageLocalDefault } from "apollo-server-core";
 import { resolvers } from "./api/resolvers";
 import { typeDefs } from "./api/types";
