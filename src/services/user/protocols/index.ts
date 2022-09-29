@@ -2,4 +2,5 @@ import { User, UserDTO } from "../../../api/entities/user.entity";
 
 export interface IUserService {
   add(user: UserDTO): Promise<User>;
+  getAllUsers(): Promise<User[]>;
 }
