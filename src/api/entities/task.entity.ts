@@ -4,6 +4,7 @@ export interface TaskDTO {
   description: string;
   recurrence: Recurrence;
   usersId: number[];
+  categoryTask: string;
 }
 
 export interface Task extends TaskDTO {

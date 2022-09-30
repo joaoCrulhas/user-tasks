@@ -8,11 +8,11 @@ interface InputTask {
   usersId: number[];
   task: TaskDTO;
 }
+
 const dateScalar = new GraphQLScalarType({
   name: "Date",
   description: "Scalar type to datetime",
   parseValue(inputValue) {
-    console.log(inputValue, 1);
     const str = inputValue as string;
     return new Date(str);
   },
@@ -52,6 +52,7 @@ const resolvers = {
         name: task.name,
         recurrence: task.recurrence,
         usersId,
+        categoryTask: task.categoryTask,
       });
     },
   },

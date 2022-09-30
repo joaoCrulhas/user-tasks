@@ -27,6 +27,7 @@ model Task {
   recurrence Int
   endDate DateTime
   users UsersOnTask[]
+  categoryTask String @default("")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

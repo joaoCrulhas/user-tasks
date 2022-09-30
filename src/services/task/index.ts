@@ -21,6 +21,7 @@ export class TaskService implements IService<Task, TaskDTO> {
             };
           }),
         },
+        categoryTask: payload.categoryTask,
       },
     });
   }

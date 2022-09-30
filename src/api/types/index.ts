@@ -2,6 +2,13 @@ import { gql } from "apollo-server";
 
 const typeDefs = gql`
   scalar Date
+
+  enum CategoryTask {
+    Environment
+    Social
+    Governance
+  }
+
   type User {
     id: Int
     email: String
@@ -20,6 +27,7 @@ const typeDefs = gql`
     name: String
     recurrence: Int
     endDate: Date
+    categoryTask: CategoryTask!
   }
 
   type Task {
@@ -31,6 +39,7 @@ const typeDefs = gql`
     createdAt: Date
     updatedAt: Date
     users: [User]
+    categoryTask: String
   }
 
   type Mutation {
