@@ -25,12 +25,26 @@ export class TaskService implements IService<Task, TaskDTO> {
     });
   }
   async get(entityId?: number): Promise<Task[]> {
-    console.log(1, typeof entityId);
     if (entityId) {
-      return await prisma.task.findMany({
+      const response = await prisma.task.findMany({
+        include: {
+          users: {
+            include: {
+              user: true,
+            },
+          },
+        },
         where: {
           id: entityId,
         },
+      });
+      return response.map((task) => {
+        return {
+          ...task,
+          users: task.users.map((user) => {
+            return user.user;
+          }),
+        };
       });
     }
     return await prisma.task.findMany();

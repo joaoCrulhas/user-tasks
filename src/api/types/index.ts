@@ -7,6 +7,7 @@ const typeDefs = gql`
     id: Int
     email: String
     name: String
+    tasks: [Task]
   }
 
   input UserInput {
@@ -30,6 +31,7 @@ const typeDefs = gql`
     endDate: Date
     createdAt: Date
     updatedAt: Date
+    users: [User]
   }
 
   type Mutation {

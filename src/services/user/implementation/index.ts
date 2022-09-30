@@ -21,10 +21,25 @@ export class UserService implements IService<User, UserDTO> {
 
   async get(entityId?: number): Promise<User[]> {
     if (entityId) {
-      return await prisma.user.findMany({
+      const user = await prisma.user.findMany({
         where: {
           id: entityId,
         },
+        include: {
+          tasks: {
+            include: {
+              task: true,
+            },
+          },
+        },
+      });
+      return user.map((u) => {
+        return {
+          ...u,
+          tasks: u.tasks.map((t) => {
+            return t.task;
+          }),
+        };
       });
     }
     return await prisma.user.findMany();

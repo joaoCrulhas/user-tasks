@@ -20,17 +20,18 @@ const dateScalar = new GraphQLScalarType({
     return value.getTime();
   },
 });
-interface TaskQueryInput {
+interface QueryInput {
   id?: number;
 }
 const resolvers = {
   Date: dateScalar,
   Query: {
-    users: () => {
+    users: (_: any, input?: QueryInput) => {
+      const id = input!.id;
       const userService = new UserService();
-      return userService.get();
+      return userService.get(id);
     },
-    tasks: (_: any, input?: TaskQueryInput) => {
+    tasks: (_: any, input?: QueryInput) => {
       const id = input!.id;
       const taskService = new TaskService();
       return taskService.get(id);
