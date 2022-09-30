@@ -12,12 +12,13 @@ const dateScalar = new GraphQLScalarType({
   name: "Date",
   description: "Scalar type to datetime",
   parseValue(inputValue) {
+    console.log(inputValue, 1);
     const str = inputValue as string;
     return new Date(str);
   },
   serialize(outputValue) {
     const value = outputValue as Date;
-    return value.getTime();
+    return value.toISOString().split("T")[0];
   },
 });
 interface QueryInput {
