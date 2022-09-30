@@ -2,10 +2,10 @@ import { TaskService } from "../../services/task";
 import { UserService } from "../../services/user/implementation";
 import { TaskDTO } from "../entities/task.entity";
 import { UserDTO } from "../entities/user.entity";
-import { GraphQLScalarSerializer, GraphQLScalarType, Kind } from "graphql";
+import { GraphQLScalarType } from "graphql";
 
 interface InputTask {
-  userId: number;
+  usersId: number[];
   task: TaskDTO;
 }
 const dateScalar = new GraphQLScalarType({
@@ -20,13 +20,20 @@ const dateScalar = new GraphQLScalarType({
     return value.getTime();
   },
 });
-
+interface TaskQueryInput {
+  id?: number;
+}
 const resolvers = {
   Date: dateScalar,
   Query: {
     users: () => {
       const userService = new UserService();
-      return userService.getAll();
+      return userService.get();
+    },
+    tasks: (_: any, input?: TaskQueryInput) => {
+      const id = input!.id;
+      const taskService = new TaskService();
+      return taskService.get(id);
     },
   },
   Mutation: {
@@ -35,9 +42,15 @@ const resolvers = {
       const userService = new UserService();
       return await userService.add(userDTO);
     },
-    createTask: async (_: any, { task, userId }: InputTask) => {
+    createTask: async (_: any, { task, usersId }: InputTask) => {
       const taskService = new TaskService();
-      return await taskService.add(task);
+      return await taskService.add({
+        description: task.description,
+        endDate: task.endDate,
+        name: task.name,
+        recurrence: task.recurrence,
+        usersId,
+      });
     },
   },
 };

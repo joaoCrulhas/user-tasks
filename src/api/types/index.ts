@@ -34,11 +34,12 @@ const typeDefs = gql`
 
   type Mutation {
     createUser(user: UserInput): User
-    createTask(userId: [Int!], task: TaskInput): Task
+    createTask(usersId: [Int!], task: TaskInput): Task
   }
 
   type Query {
-    users: [User]
+    users(id: Int): [User]
+    tasks(id: Int): [Task]
   }
 `;
 

@@ -19,9 +19,14 @@ export class UserService implements IService<User, UserDTO> {
     };
   }
 
-  async getAll(): Promise<User[]> {
-    const users = await prisma.user.findMany();
-    console.log(users);
-    return users;
+  async get(entityId?: number): Promise<User[]> {
+    if (entityId) {
+      return await prisma.user.findMany({
+        where: {
+          id: entityId,
+        },
+      });
+    }
+    return await prisma.user.findMany();
   }
 }

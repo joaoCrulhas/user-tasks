@@ -3,6 +3,7 @@ export interface TaskDTO {
   endDate: Date;
   description: string;
   recurrence: Recurrence;
+  usersId: number[];
 }
 
 export interface Task extends TaskDTO {
