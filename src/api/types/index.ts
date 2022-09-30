@@ -35,6 +35,7 @@ const typeDefs = gql`
     name: String
     description: String
     recurrence: Int
+    startDate: Date
     endDate: Date
     createdAt: Date
     updatedAt: Date

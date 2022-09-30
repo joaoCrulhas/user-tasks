@@ -25,6 +25,7 @@ model Task {
   name       String
   description String
   recurrence Int
+  startDate DateTime
   endDate DateTime
   users UsersOnTask[]
   categoryTask String @default("")

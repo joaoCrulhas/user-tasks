@@ -1,5 +1,6 @@
 export interface TaskDTO {
   name: string;
+  startDate: Date;
   endDate: Date;
   description: string;
   recurrence: Recurrence;

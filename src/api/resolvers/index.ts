@@ -48,6 +48,7 @@ const resolvers = {
       const taskService = new TaskService();
       return await taskService.add({
         description: task.description,
+        startDate: task.startDate,
         endDate: task.endDate,
         name: task.name,
         recurrence: task.recurrence,
