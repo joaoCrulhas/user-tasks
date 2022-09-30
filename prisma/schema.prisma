@@ -15,12 +15,28 @@ model User {
   email    String @unique
   name     String
   password String
-  Task     Task[]
+  tasks UsersOnTask[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Task {
   id         Int    @id @default(autoincrement())
   name       String
-  assignedTo User   @relation(fields: [userId], references: [id])
-  userId     Int
+  description String
+  recurrence Int
+  endDate DateTime
+  users UsersOnTask[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model UsersOnTask {
+  task       Task     @relation(fields: [taskId], references: [id])
+  taskId     Int 
+  user   User @relation(fields: [userId], references: [id])
+  userId Int 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@id([userId, taskId])
 }
