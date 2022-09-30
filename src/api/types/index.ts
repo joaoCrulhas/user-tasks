@@ -19,7 +19,7 @@ const typeDefs = gql`
     description: String
     name: String
     recurrence: Int
-    endDate: String
+    endDate: Date
   }
 
   type Task {
@@ -27,9 +27,9 @@ const typeDefs = gql`
     name: String
     description: String
     recurrence: Int
-    endDate: String
-    createdAt: String
-    updatedAt: String
+    endDate: Date
+    createdAt: Date
+    updatedAt: Date
   }
 
   type Mutation {
