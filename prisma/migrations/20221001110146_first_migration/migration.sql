@@ -14,7 +14,9 @@ CREATE TABLE "Task" (
     "name" TEXT NOT NULL,
     "description" TEXT NOT NULL,
     "recurrence" INTEGER NOT NULL,
+    "startDate" DATETIME NOT NULL,
     "endDate" DATETIME NOT NULL,
+    "categoryTask" TEXT NOT NULL DEFAULT '',
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" DATETIME NOT NULL
 );

@@ -13,6 +13,7 @@ export class TaskService implements IService<Task, TaskDTO> {
         description: payload.description,
         name: payload.name,
         recurrence: payload.recurrence,
+        startDate: payload.startDate,
         endDate: payload.endDate,
         users: {
           create: payload.usersId.map((element) => {
@@ -48,6 +49,22 @@ export class TaskService implements IService<Task, TaskDTO> {
         };
       });
     }
-    return await prisma.task.findMany();
+    const allTasks = await prisma.task.findMany({
+      include: {
+        users: {
+          include: {
+            user: true,
+          },
+        },
+      },
+    });
+    return allTasks.map((task) => {
+      return {
+        ...task,
+        users: task.users.map((user) => {
+          return user.user;
+        }),
+      };
+    });
   }
 }

@@ -26,6 +26,7 @@ const typeDefs = gql`
     description: String
     name: String
     recurrence: Int
+    startDate: Date
     endDate: Date
     categoryTask: CategoryTask!
   }
