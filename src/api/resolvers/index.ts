@@ -5,6 +5,8 @@ import { UserDTO } from "../entities/user.entity";
 import { GraphQLScalarType } from "graphql";
 import {UserRepository} from "../../repository/user-repository";
 import {TaskRepository} from "../../repository/task-repository";
+import {UserServiceFactory} from "../../helpers/user-service-factory";
+import {TaskServiceFactory} from "../../helpers/tasl-service-factory";
 
 interface InputTask {
   usersId: number[];
@@ -30,28 +32,24 @@ const resolvers = {
   Date: dateScalar,
   Query: {
     users: async (_: any, input?: QueryInput) => {
+      const userService = new UserServiceFactory().factoryMethod();
       const id = input!.id;
-      const userRepository = new UserRepository();
-      const userService = new UserService(userRepository);
       return await userService.get(id);
     },
     tasks: async (_: any, input?: QueryInput) => {
       const id = input!.id;
-      const taskRepository = new TaskRepository();
-      const taskService = new TaskService(taskRepository);
+      const taskService = new TaskServiceFactory().factoryMethod()
       return await taskService.get(id);
     },
   },
   Mutation: {
     createUser: async (_: any, input: any) => {
-      const userRepository = new UserRepository();
+      const userService = new UserServiceFactory().factoryMethod();
       const userDTO = input.user as UserDTO;
-      const userService = new UserService(userRepository);
       return await userService.add(userDTO);
     },
     createTask: async (_: any, { task, usersId }: InputTask) => {
-      const taskRepository = new TaskRepository();
-      const taskService = new TaskService(taskRepository);
+      const taskService = new TaskServiceFactory().factoryMethod()
       return await taskService.add({
         description: task.description,
         startDate: task.startDate,

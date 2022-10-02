@@ -1,7 +1,6 @@
 import { Task, TaskDTO} from "../../api/entities/task.entity";
 import {IService} from "../protocol";
 import {IRepository} from "../../repository/protocol";
-import {PrismaClient} from "@prisma/client";
 export class TaskService implements IService<Task, TaskDTO> {
   constructor(private readonly taskRepository: IRepository<TaskDTO, Task>) {}
   async add(payload: TaskDTO): Promise<Task> {
