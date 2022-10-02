@@ -1,7 +1,7 @@
 import { TaskRepository } from "../repository/task-repository";
 import schedule from "node-schedule";
 import { EmailNotification } from "../services/notification/email-notification";
-import { Recurrence, Task } from "../api/entities/task.entity";
+import { Task } from "../api/entities/task.entity";
 import moment from "moment";
 
 schedule.scheduleJob("0 0 * * *", async function () {
