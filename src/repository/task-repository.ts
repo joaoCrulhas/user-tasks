@@ -1,11 +1,12 @@
 import {IRepository} from "./protocol";
 import {Task, TaskDTO} from "../api/entities/task.entity";
 import { PrismaClient} from "@prisma/client";
+import {PrismaSingleton} from "../helpers/prisma-singleton";
 
 export class TaskRepository implements IRepository<TaskDTO, Task> {
     private taskRepository: PrismaClient;
     constructor() {
-        this.taskRepository = new PrismaClient();
+        this.taskRepository = PrismaSingleton.getInstance();
     }
     async add(item: TaskDTO): Promise<Task> {
         const { name, recurrence,startDate,endDate,categoryTask,description } = item;
