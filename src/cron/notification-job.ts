@@ -49,7 +49,3 @@ const sendEmail = async () => {
     }
   });
 };
-
-sendEmail().then((data) => {
-  console.log(data);
-});
