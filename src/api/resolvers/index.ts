@@ -1,5 +1,5 @@
 import { TaskService } from "../../services/task";
-import { UserService } from "../../services/user/implementation";
+import { UserService } from "../../services/user";
 import { TaskDTO } from "../entities/task.entity";
 import { UserDTO } from "../entities/user.entity";
 import { GraphQLScalarType } from "graphql";

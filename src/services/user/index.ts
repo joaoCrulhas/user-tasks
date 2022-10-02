@@ -1,6 +1,6 @@
-import { User, UserDTO } from "../../../api/entities/user.entity";
-import { IService } from "../../protocol";
-import {IRepository} from "../../../repository/protocol";
+import { User, UserDTO } from "../../api/entities/user.entity";
+import { IService } from "../protocol";
+import {IRepository} from "../../repository/protocol";
 
 export class UserService implements IService<User, UserDTO> {
   constructor(private readonly userRepository: IRepository<UserDTO, User>) {}
