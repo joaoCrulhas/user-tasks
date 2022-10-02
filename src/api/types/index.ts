@@ -40,8 +40,14 @@ const typeDefs = gql`
     endDate: Date
     createdAt: Date
     updatedAt: Date
-    users: [User]
+    users: [UserTask]
     categoryTask: String
+  }
+  
+  type UserTask {
+    id: Int
+    email: String
+    name: String
   }
 
   type Mutation {

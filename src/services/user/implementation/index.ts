@@ -1,8 +1,6 @@
 import { User, UserDTO } from "../../../api/entities/user.entity";
-import { PrismaClient } from "@prisma/client";
 import { IService } from "../../protocol";
 import {IRepository} from "../../../repository/protocol";
-const prisma = new PrismaClient();
 
 export class UserService implements IService<User, UserDTO> {
   constructor(private readonly userRepository: IRepository<UserDTO, User>) {}

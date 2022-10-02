@@ -4,6 +4,7 @@ import { TaskDTO } from "../entities/task.entity";
 import { UserDTO } from "../entities/user.entity";
 import { GraphQLScalarType } from "graphql";
 import {UserRepository} from "../../repository/user-repository";
+import {TaskRepository} from "../../repository/task-repository";
 
 interface InputTask {
   usersId: number[];
@@ -36,7 +37,8 @@ const resolvers = {
     },
     tasks: async (_: any, input?: QueryInput) => {
       const id = input!.id;
-      const taskService = new TaskService();
+      const taskRepository = new TaskRepository();
+      const taskService = new TaskService(taskRepository);
       return await taskService.get(id);
     },
   },
@@ -48,7 +50,8 @@ const resolvers = {
       return await userService.add(userDTO);
     },
     createTask: async (_: any, { task, usersId }: InputTask) => {
-      const taskService = new TaskService();
+      const taskRepository = new TaskRepository();
+      const taskService = new TaskService(taskRepository);
       return await taskService.add({
         description: task.description,
         startDate: task.startDate,

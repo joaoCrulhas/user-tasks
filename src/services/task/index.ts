@@ -1,30 +1,20 @@
-import { PrismaClient, Task } from "@prisma/client";
-import { TaskDTO } from "../../api/entities/task.entity";
-import { IService } from "../protocol";
+import { Task, TaskDTO} from "../../api/entities/task.entity";
+import {IService} from "../protocol";
+import {IRepository} from "../../repository/protocol";
+import {PrismaClient} from "@prisma/client";
 const prisma = new PrismaClient();
-
 export class TaskService implements IService<Task, TaskDTO> {
+  constructor(private readonly taskRepository: IRepository<TaskDTO, Task>) {}
   async add(payload: TaskDTO): Promise<Task> {
-    return await prisma.task.create({
-      include: {
-        users: true,
-      },
-      data: {
-        description: payload.description,
-        name: payload.name,
-        recurrence: payload.recurrence,
-        startDate: payload.startDate,
-        endDate: payload.endDate,
-        users: {
-          create: payload.usersId.map((element) => {
-            return {
-              userId: element,
-            };
-          }),
-        },
-        categoryTask: payload.categoryTask,
-      },
-    });
+    return await this.taskRepository.add({
+      description: payload.description,
+      startDate: payload.startDate,
+      endDate: payload.endDate,
+      name: payload.name,
+      recurrence: payload.recurrence,
+      usersId: payload.usersId,
+      categoryTask: payload.categoryTask,
+    })
   }
   async get(entityId?: number): Promise<Task[]> {
     if (entityId) {
