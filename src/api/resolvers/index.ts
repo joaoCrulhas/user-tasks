@@ -30,7 +30,8 @@ const resolvers = {
   Query: {
     users: (_: any, input?: QueryInput) => {
       const id = input!.id;
-      const userService = new UserService(new UserRepository());
+      const userRepository = new UserRepository();
+      const userService = new UserService(userRepository);
       return userService.get(id);
     },
     tasks: (_: any, input?: QueryInput) => {

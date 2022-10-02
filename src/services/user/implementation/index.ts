@@ -1,7 +1,6 @@
-import { UserDTO, User } from "../../../api/entities/user.entity";
+import { User, UserDTO } from "../../../api/entities/user.entity";
 import { PrismaClient } from "@prisma/client";
 import { IService } from "../../protocol";
-import {UserRepository} from "../../../repository/user-repository";
 import {IRepository} from "../../../repository/protocol";
 const prisma = new PrismaClient();
 
@@ -11,29 +10,21 @@ export class UserService implements IService<User, UserDTO> {
     return  await this.userRepository.add({ email, password, name })
   }
 
-  async get(entityId?: number): Promise<User[]> {
+  async get(entityId?: number): Promise<User[] | null > {
     if (entityId) {
-      const user = await prisma.user.findMany({
-        where: {
-          id: entityId,
-        },
-        include: {
-          tasks: {
-            include: {
-              task: true,
-            },
-          },
-        },
-      });
-      return user.map((u) => {
-        return {
-          ...u,
-          tasks: u.tasks.map((t) => {
-            return t.task;
-          }),
-        };
-      });
+      const user = await this.userRepository.findOne(entityId);
+      if(!user) {
+        return null;
+      }
+      return [{
+        createdAt: user.createdAt,
+        updatedAt: user.updatedAt,
+        email: user.email,
+        name: user.name,
+        id: user.id,
+        tasks: user.tasks,
+      }];
     }
-    return await prisma.user.findMany();
+    return await this.userRepository.findAll();
   }
 }
