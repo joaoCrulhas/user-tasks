@@ -48,8 +48,24 @@ export class TaskRepository implements IRepository<TaskDTO, Task> {
         };
      }
 
-    findAll(): Promise<Task[] | null> {
-        throw new Error(`Task 1`);
+    async findAll(): Promise<Task[] | null> {
+        const allTasks = await this.taskRepository.task.findMany({
+            include: {
+                users: {
+                    include: {
+                        user: true,
+                    },
+                },
+            },
+        });
+        return allTasks.map((task) => {
+            return {
+                ...task,
+                users: task.users.map((user) => {
+                    return user.user;
+                }),
+            };
+        });
     }
 
     async findOne(id: number): Promise<Task | null> {

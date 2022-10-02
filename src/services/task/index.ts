@@ -35,22 +35,6 @@ export class TaskService implements IService<Task, TaskDTO> {
         users: task.users,
       }];
     }
-    const allTasks = await prisma.task.findMany({
-      include: {
-        users: {
-          include: {
-            user: true,
-          },
-        },
-      },
-    });
-    return allTasks.map((task) => {
-      return {
-        ...task,
-        users: task.users.map((user) => {
-          return user.user;
-        }),
-      };
-    });
+    return this.taskRepository.findAll();
   }
 }
