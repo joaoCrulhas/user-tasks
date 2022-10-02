@@ -16,9 +16,6 @@ const sendEmail = async () => {
   if (!tasks) return;
   const emailNotification = new EmailNotification();
   tasks.forEach(async (task) => {
-    if (task.users) {
-      await emailNotification.send(task.users, task);
-      return;
-    }
+    await emailNotification.send(task.users, task);
   });
 };

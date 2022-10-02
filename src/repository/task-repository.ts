@@ -55,11 +55,6 @@ export class TaskRepository implements IRepository<TaskDTO, Task> {
 
   private buildWhereQuery(conditions: TaskCondition) {
     let where = {};
-    if (conditions.hasUsersAssigned) {
-      where = {
-        ...where,
-      };
-    }
     if (conditions.isRunningTask) {
       where = {
         ...where,

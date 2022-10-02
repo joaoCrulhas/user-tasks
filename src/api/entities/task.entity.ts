@@ -1,4 +1,4 @@
-import {User} from "./user.entity";
+import { User } from "./user.entity";
 
 export interface TaskDTO {
   name: string;
@@ -20,7 +20,7 @@ export interface Task {
   categoryTask: string;
   createdAt: Date;
   updatedAt: Date;
-  users?: User[];
+  users: User[];
 }
 
 export enum Recurrence {

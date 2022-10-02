@@ -43,7 +43,7 @@ const typeDefs = gql`
     users: [UserTask]
     categoryTask: String
   }
-  
+
   type UserTask {
     id: Int
     email: String
@@ -52,7 +52,7 @@ const typeDefs = gql`
 
   type Mutation {
     createUser(user: UserInput): User
-    createTask(usersId: [Int!], task: TaskInput): Task
+    createTask(usersId: [Int]!, task: TaskInput): Task
   }
 
   type Query {
