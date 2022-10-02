@@ -7,7 +7,10 @@
     "test": "jest",
     "lint": "eslint . --ext .ts",
     "lint-and-fix": "eslint . --ext .ts --fix",
-    "start:dev": "nodemon"
+    "start:dev": "nodemon",
+    "server": "ts-node ./src/index.ts",
+    "prisma:deploy": "prisma migrate deploy",
+    "build": "tsc"
   },
   "keywords": [],
   "author": "",
