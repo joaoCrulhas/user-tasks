@@ -1,18 +1,19 @@
-import { TaskService } from "../../services/task";
-import { UserService } from "../../services/user";
 import { TaskDTO } from "../entities/task.entity";
-import { UserDTO } from "../entities/user.entity";
 import { GraphQLScalarType } from "graphql";
-import {UserRepository} from "../../repository/user-repository";
-import {TaskRepository} from "../../repository/task-repository";
-import {UserServiceFactory} from "../../helpers/user-service-factory";
-import {TaskServiceFactory} from "../../helpers/tasl-service-factory";
+import { UserServiceFactory } from "../../helpers/user-service-factory";
+import { TaskServiceFactory } from "../../helpers/tasl-service-factory";
 
 interface InputTask {
   usersId: number[];
   task: TaskDTO;
 }
-
+interface InputUser {
+  user: {
+    email: string;
+    name: string;
+    password: string;
+  };
+}
 const dateScalar = new GraphQLScalarType({
   name: "Date",
   description: "Scalar type to datetime",
@@ -31,25 +32,29 @@ interface QueryInput {
 const resolvers = {
   Date: dateScalar,
   Query: {
-    users: async (_: any, input?: QueryInput) => {
+    users: async (_: undefined, input?: QueryInput) => {
       const userService = new UserServiceFactory().factoryMethod();
-      const id = input!.id;
+      const id = input?.id;
       return await userService.get(id);
     },
-    tasks: async (_: any, input?: QueryInput) => {
-      const id = input!.id;
-      const taskService = new TaskServiceFactory().factoryMethod()
+    tasks: async (_: undefined, input?: QueryInput) => {
+      console.log(_, 1);
+      const id = input?.id;
+      const taskService = new TaskServiceFactory().factoryMethod();
       return await taskService.get(id);
     },
   },
   Mutation: {
-    createUser: async (_: any, input: any) => {
+    createUser: async (_: undefined, input: InputUser) => {
       const userService = new UserServiceFactory().factoryMethod();
-      const userDTO = input.user as UserDTO;
-      return await userService.add(userDTO);
+      return await userService.add({
+        email: input.user.email,
+        name: input.user.name,
+        password: input.user.password,
+      });
     },
-    createTask: async (_: any, { task, usersId }: InputTask) => {
-      const taskService = new TaskServiceFactory().factoryMethod()
+    createTask: async (_: undefined, { task, usersId }: InputTask) => {
+      const taskService = new TaskServiceFactory().factoryMethod();
       return await taskService.add({
         description: task.description,
         startDate: task.startDate,
