@@ -28,16 +28,16 @@ interface QueryInput {
 const resolvers = {
   Date: dateScalar,
   Query: {
-    users: (_: any, input?: QueryInput) => {
+    users: async (_: any, input?: QueryInput) => {
       const id = input!.id;
       const userRepository = new UserRepository();
       const userService = new UserService(userRepository);
-      return userService.get(id);
+      return await userService.get(id);
     },
-    tasks: (_: any, input?: QueryInput) => {
+    tasks: async (_: any, input?: QueryInput) => {
       const id = input!.id;
       const taskService = new TaskService();
-      return taskService.get(id);
+      return await taskService.get(id);
     },
   },
   Mutation: {
