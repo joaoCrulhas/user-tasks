@@ -6,7 +6,6 @@ schedule.scheduleJob("0 0 * * *", async function () {
   const taskRepository = new TaskRepository();
   await taskRepository.findAll();
   await sendEmail();
-  console.log("The answer to life, the universe, and everything!");
 });
 
 const sendEmail = async () => {
