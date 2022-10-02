@@ -52,8 +52,35 @@ export class TaskRepository implements IRepository<TaskDTO, Task> {
         throw new Error(`Task 1`);
     }
 
-    findOne(id: number): Promise<Task | null> {
-        throw new Error(`Task 1`);
+    async findOne(id: number): Promise<Task | null> {
+        const response = await this.taskRepository.task.findFirst({
+            include: {
+                users: {
+                    include: {
+                        user: true,
+                    },
+                },
+            },
+            where: {
+                id,
+            },
+        });
+        if(!response) {
+            return null;
+        }
+        const users = response.users.map(({user}) => user);
+        return {
+            id: response.id,
+            startDate: response.startDate,
+            endDate: response.endDate,
+            updatedAt: response.updatedAt,
+            name: response.name,
+            categoryTask: response.categoryTask,
+            createdAt: response.createdAt,
+            description: response.description,
+            recurrence: response.recurrence,
+            users,
+        }
     }
 
 }
