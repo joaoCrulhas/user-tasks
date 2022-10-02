@@ -1,22 +1,14 @@
 import { UserDTO, User } from "../../../api/entities/user.entity";
 import { PrismaClient } from "@prisma/client";
 import { IService } from "../../protocol";
+import {UserRepository} from "../../../repository/user-repository";
+import {IRepository} from "../../../repository/protocol";
 const prisma = new PrismaClient();
 
 export class UserService implements IService<User, UserDTO> {
+  constructor(private readonly userRepository: IRepository<UserDTO, User>) {}
   async add({ email, password, name }: UserDTO): Promise<User> {
-    const user = await prisma.user.create({
-      data: {
-        email,
-        password,
-        name,
-      },
-    });
-    return {
-      id: user.id,
-      email: user.email,
-      name: user.name,
-    };
+    return  await this.userRepository.add({ email, password, name })
   }
 
   async get(entityId?: number): Promise<User[]> {

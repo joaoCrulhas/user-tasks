@@ -3,6 +3,7 @@ import { UserService } from "../../services/user/implementation";
 import { TaskDTO } from "../entities/task.entity";
 import { UserDTO } from "../entities/user.entity";
 import { GraphQLScalarType } from "graphql";
+import {UserRepository} from "../../repository/user-repository";
 
 interface InputTask {
   usersId: number[];
@@ -29,7 +30,7 @@ const resolvers = {
   Query: {
     users: (_: any, input?: QueryInput) => {
       const id = input!.id;
-      const userService = new UserService();
+      const userService = new UserService(new UserRepository());
       return userService.get(id);
     },
     tasks: (_: any, input?: QueryInput) => {
@@ -40,8 +41,9 @@ const resolvers = {
   },
   Mutation: {
     createUser: async (_: any, input: any) => {
+      const userRepository = new UserRepository();
       const userDTO = input.user as UserDTO;
-      const userService = new UserService();
+      const userService = new UserService(userRepository);
       return await userService.add(userDTO);
     },
     createTask: async (_: any, { task, usersId }: InputTask) => {
