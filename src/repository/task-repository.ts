@@ -2,6 +2,10 @@ import { IRepository } from "./protocol";
 import { Task, TaskDTO } from "../api/entities/task.entity";
 import { PrismaClient } from "@prisma/client";
 import { PrismaSingleton } from "../helpers/prisma-singleton";
+export interface TaskCondition {
+  isRunningTask?: boolean;
+  //   hasUsersAssigned?: boolean; @TODO
+}
 export class TaskRepository implements IRepository<TaskDTO, Task> {
   private taskRepository: PrismaClient;
   constructor() {
@@ -49,8 +53,26 @@ export class TaskRepository implements IRepository<TaskDTO, Task> {
     };
   }
 
-  async findAll(): Promise<Task[] | null> {
+  private buildWhereQuery(conditions: TaskCondition) {
+    let where = {};
+    if (conditions.hasUsersAssigned) {
+      where = {
+        ...where,
+      };
+    }
+    if (conditions.isRunningTask) {
+      where = {
+        ...where,
+        endDate: { gte: new Date() },
+      };
+    }
+    return where;
+  }
+
+  async findAll(conditions?: TaskCondition): Promise<Task[] | null> {
+    const query = !conditions ? {} : this.buildWhereQuery(conditions);
     const allTasks = await this.taskRepository.task.findMany({
+      where: { ...query },
       include: {
         users: {
           include: {
