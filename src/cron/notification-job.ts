@@ -1,7 +1,7 @@
 import { TaskRepository } from "../repository/task-repository";
 import schedule from "node-schedule";
 import { EmailNotification } from "../services/notification/email-notification";
-import { Task } from "../api/entities/task.entity";
+import { Recurrence, Task } from "../api/entities/task.entity";
 import moment from "moment";
 
 schedule.scheduleJob("0 0 * * *", async function () {
@@ -14,22 +14,22 @@ const shouldNotifyTask = (task: Task): boolean => {
   const { startDate, recurrence } = task;
   const today = moment();
 
-  if (recurrence === 1) {
+  if (recurrence === Recurrence.biweekly) {
     const diff = today.diff(moment(startDate), "days");
     return diff % 15 === 0;
   }
 
-  if (recurrence === 2) {
+  if (recurrence === Recurrence.monthly) {
     const diff = today.diff(moment(startDate), "month");
     return diff === 1;
   }
 
-  if (recurrence === 3) {
+  if (recurrence === Recurrence.quarterly) {
     const diff = today.diff(moment(startDate), "quarter");
     return diff === 1;
   }
 
-  if (recurrence === 4) {
+  if (recurrence === Recurrence.yearly) {
     const diff = today.diff(moment(startDate), "years");
     return diff === 1;
   }
