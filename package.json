@@ -9,6 +9,7 @@
     "lint-and-fix": "eslint . --ext .ts --fix",
     "start:dev": "nodemon",
     "server": "ts-node ./src/index.ts",
+    "prisma:dev": "prisma migrate dev --name init",
     "prisma:deploy": "prisma migrate deploy",
     "build": "tsc"
   },

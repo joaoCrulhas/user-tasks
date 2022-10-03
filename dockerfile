@@ -18,5 +18,6 @@ RUN npm install
 RUN npx prisma generate
 
 EXPOSE 4000
-# CMD ["npm", "run", "prisma:deploy"]
+
+CMD ["npm", "run", "prisma:dev"]
 CMD [ "npm", "run", "server" ]
